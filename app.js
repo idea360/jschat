@@ -12,5 +12,5 @@ app.configure(function(){
 });
 //we're going to have /routes/index.js handle all of our routing
 var route = require('./routes/index.js')(app);
-app.listen(6969);
-console.log("Group Chat running on port 6969")
+app.listen(80);
+console.log("Group Chat running on port 80")
