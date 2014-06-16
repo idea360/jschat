@@ -1,0 +1,27 @@
+.jumbotron {
+    margin-bottom: 0px;
+    background-image: url(/images/ninja.jpg);
+    background-position: 0% 40%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #965F5A;
+    text-shadow: black 0.2em 0.2em 0.2em;
+}
+.well{
+  margin: 1% 0 0 0;
+  padding: 0;
+  border: 1px solid #965F5A;
+  height: 300px;
+  overflow: scroll;
+}
+.panel-success{
+  margin: 1% 0 0 0;
+  padding: 0;
+  border: 1px solid #965F5A;
+  height: 300px;
+  overflow: scroll;
+}
+.btn{
+  float:  right;
+}
+  

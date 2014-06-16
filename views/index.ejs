@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <!-- My CSS -->
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> 
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      $(document).ready(function(){
+        io = io.connect();
+
+        var name = prompt("Enter your name!");
+        io.emit("new_user", {name: name});
+
+        io.on("get_active_users", function(data){
+          for(user in data.users){
+            $(".panel-body").append("<p id='" + user + "'>"+ data.users[user].name +"</p>"); 
+          }
+        });
+
+        io.on("new_user_joined", function(data){
+           $(".panel-body").append("<p id='" + data.session + "'>" + data.user +"</p>");
+        });
+
+        io.on("user_disconnected", function(data){
+          document.getElementById(data.sessionid).remove();
+           });
+
+        $("#chatbox").submit(function(e){
+          var message = $('#chat').val();
+          e.preventDefault();
+          io.emit("chatSubmit", {message: message});
+          $('#chat').val(" ");
+        });
+
+        io.on("addChat", function(data){
+          $(".well").append("<p style='color:blue'> <span style='color:red'>" + data.name + "</span>: " + data.message + "</p>")
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="jumbotron">
+      <h1><%= title %></h1>
+      <p>Welcome to <%= title %></p>
+      <p>
+        <span class="glyphicon glyphicon-hand-right"></span>
+        <span class="glyphicon glyphicon-cloud-upload"></span>
+        <span class="glyphicon glyphicon-hand-left"></span>
+      </p>
+    </div> <!-- end jumbotron -->
+    <div class="container">
+      <div class="row">
+        <div class="column col-md-8 col-md-offset-1">
+          <div class="well well-lg">
+            <p>Messages here</p>
+          </div><!-- end well -->
+          <form role="form" id="chatbox" action="">
+            <div class="form-group">
+              <input id='chat' type="text" class="form-control" placeholder="Enter message: ">
+              <input type="submit" class="btn btn-success" value="Chat!">
+            </div>
+          </form>
+        </div><!-- end column -->
+        <div class="column col-md-2">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h4 class="panel-title">Users</h4>
+            </div>
+            <div class="panel-body">
+            </div>
+          </div>
+        </div> <!-- end column -->
+      </div><!-- end row -->
+    </div><!-- end container -->
+    </body>
+</html>
