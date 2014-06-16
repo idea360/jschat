@@ -43,6 +43,8 @@
 
         io.on("addChat", function(data){
           $(".well").append("<p style='color:blue'> <span style='color:red'>" + data.name + "</span>: " + data.message + "</p>")
+          var $chat = $(".well");
+          $chat.scrollTop($chat.height());
         });
       });
     </script>
