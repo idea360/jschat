@@ -20,6 +20,11 @@
         var name = prompt("Enter your name!");
         io.emit("new_user", {name: name});
 
+        io.on("bad_user", function(){
+          var name = prompt("Enter your name!");
+          io.emit("new_user", {name: name});          
+        })
+
         io.on("get_active_users", function(data){
           for(user in data.users){
             $(".panel-body").append("<p id='" + user + "'>"+ data.users[user].name +"</p>"); 
